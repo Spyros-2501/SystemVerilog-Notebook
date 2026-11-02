@@ -1,60 +1,48 @@
 # IEEE 1800-2023
 
-#### §9.4.2.1 — Comma-separated sensitivity lists shall be synonymous to or-separated sensitivity lists.
+## §6.18 User-defined types
 
 ```SV
-always @(a or b, c, d or e)
+typedef int intP;
 ```
 
-#### §20.8.1 — Integer math functions
-
-> The system function `$clog2` shall return the ceiling of the log base 2 of the argument
+## §6.19 Enumerations
 
 ```SV
-$clog2(n)
+// c is automatically assigned the increment-value of 8
+enum {a=3, b=7, c} alphabet;
+
+// a=0, b=7, c=8
+enum {a, b=7, c} alphabet;
+
+// Correct declaration - bronze and gold are unsized
+enum bit [3:0] {bronze='h3, silver, gold='h5} medal2;
 ```
 
-#### §20.8.2 — Real math functions
+## §6.21 Scope and lifetime
 
-```SV
-$ln(x)
-$log10(x)
-$exp(x)
-$sqrt(x)
-$pow(x,y)
-$floor(x)
-$ceil(x)
-$sin(x)
-$cos(x)
-$tan(x)
-$asin(x)
-$acos(x)
-$atan(x)
-$atan2(y,x)
-$hypot(x,y)
-$sinh(x)
-$cosh(x)
-$tanh(x)
-$asinh(x)
-$acosh(x)
-$atanh(x)
-```
+> Tasks and functions may be declared as **automatic**. Variables ... are initialized on each entry to the call or block
 
-#### §7.4.2 — [size] shall mean the same as [0:size-1]
+> Specific variables ... can be explicitly declared as **static**.
+
+## §7.4.2 Unpacked arrays
+
+> `[size]` shall mean the same as `[0:size-1]`
 
 ```SV
 int Array[0:7][0:31];	// array declaration using ranges
 int Array  [8]  [32];	// array declaration using sizes
 ```
 
-#### §20.10 — `$fatal` The finish_number may be used in an implementation-specific manner.
+## §9.4.2.1 Event OR operator
+
+> Comma-separated sensitivity lists shall be synonymous to `or`-separated sensitivity lists.
 
 ```SV
-$fatal [ ( finish_number [, list_of_arguments ] ) ] ;
-finish_number ::= 0 | 1 | 2
+always @(a or b, c, d or e)
 ```
 
-#### §12.5.3 — `unique`-case, `unique0`-case, and `priority`-case
+## §12.5.3 `unique`-case, `unique0`-case, and `priority`-case
 
 > In **unique**-case and unique0-case, the case_expression shall be evaluated exactly once... Unique-case and unique0-case are violated if more than one case_item is found to match the case_expression. 
 
@@ -81,7 +69,87 @@ unique0 case(a) // values 3,5,6,7 do not cause a violation report
 endcase
 ```
 
----
+## §13. Tasks and functions (subroutines)
+
+> Tasks and functions are collectively referred to as *subroutines*.
+
+## §13.3 Tasks
+
+> A call to a task is also referred to as a *task enable*
+
+## §13.4 Functions
+
+> The primary purpose of a function is to return a value that is to be used in an expression.
+
+## §13.5.1 Pass by value
+
+## §13.5.2 Pass by reference
+
+```SV
+function automatic int crc (ref byte packet [1000:1]);
+	for(int j= 1; j <= 1000; j++) begin
+		crc ^= packet[j];
+	end
+endfunction
+```
+
+## §20.8.1 Integer math functions
+
+> The system function `$clog2` shall return the ceiling of the log base 2 of the argument
+
+```SV
+$clog2(n)
+```
+
+## §20.8.2 Real math functions
+
+```SV
+$ln(x)
+$log10(x)
+$exp(x)
+$sqrt(x)
+$pow(x,y)
+$floor(x)
+$ceil(x)
+$sin(x)
+$cos(x)
+$tan(x)
+$asin(x)
+$acos(x)
+$atan(x)
+$atan2(y,x)
+$hypot(x,y)
+$sinh(x)
+$cosh(x)
+$tanh(x)
+$asinh(x)
+$acosh(x)
+$atanh(x)
+```
+
+## §20.10 Severity system tasks
+
+### `$fatal`
+
+> The *finish_number* may be used in an implementation-specific manner.
+
+```SV
+$fatal [ ( finish_number [, list_of_arguments ] ) ] ;
+finish_number ::= 0 | 1 | 2
+```
+
+## §23.3.2 Module instantiation syntax
+
+> One or more module **instances** (identical copies of a module) can be specified in a single module instantiation statement.
+
+```SV
+ffnand
+	ff1 (.q(),     .qbar(out1), .clear(in1), .preset(in2)), 
+	ff2 (.q(),     .qbar(out2), .clear(in2), .preset(in1), .q()); 
+	ff3 (.q(out3), .qbar(),     .clear(in1), .preset(in2));
+```
+
+----------------------------------------------------------------------
 
 # Coding Styles
 * code: [lowRISC](https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md) (github)
