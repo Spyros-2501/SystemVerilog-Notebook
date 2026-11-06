@@ -1,12 +1,21 @@
 # IEEE 1800-2023
 
-## §6.18 User-defined types
+## § 5.10 Structure literals
+
+```SV
+typedef struct {int a; shortreal b;} ab;
+ab c;
+c = '{default:0};
+d = ab'{int:1, shortreal:1.0};
+```
+
+## § 6.18 User-defined types
 
 ```SV
 typedef int intP;
 ```
 
-## §6.19 Enumerations
+## § 6.19 Enumerations
 
 ```SV
 // c is automatically assigned the increment-value of 8
@@ -19,13 +28,13 @@ enum {a, b=7, c} alphabet;
 enum bit [3:0] {bronze='h3, silver, gold='h5} medal2;
 ```
 
-## §6.21 Scope and lifetime
+## § 6.21 Scope and lifetime
 
 > Tasks and functions may be declared as **automatic**. Variables ... are initialized on each entry to the call or block
 
 > Specific variables ... can be explicitly declared as **static**.
 
-## §7.4.2 Unpacked arrays
+## § 7.4.2 Unpacked arrays
 
 > `[size]` shall mean the same as `[0:size-1]`
 
@@ -34,7 +43,7 @@ int Array[0:7][0:31];	// array declaration using ranges
 int Array  [8]  [32];	// array declaration using sizes
 ```
 
-## §9.4.2.1 Event OR operator
+## § 9.4.2.1 Event OR operator
 
 > Comma-separated sensitivity lists shall be synonymous to `or`-separated sensitivity lists.
 
@@ -42,7 +51,7 @@ int Array  [8]  [32];	// array declaration using sizes
 always @(a or b, c, d or e)
 ```
 
-## §12.5.3 `unique`-case, `unique0`-case, and `priority`-case
+## § 12.5.3 `unique`-case, `unique0`-case, and `priority`-case
 
 > In **unique**-case and unique0-case, the case_expression shall be evaluated exactly once... Unique-case and unique0-case are violated if more than one case_item is found to match the case_expression. 
 
@@ -69,21 +78,21 @@ unique0 case(a) // values 3,5,6,7 do not cause a violation report
 endcase
 ```
 
-## §13. Tasks and functions (subroutines)
+## § 13. Tasks and functions (subroutines)
 
 > Tasks and functions are collectively referred to as *subroutines*.
 
-## §13.3 Tasks
+## § 13.3 Tasks
 
 > A call to a task is also referred to as a *task enable*
 
-## §13.4 Functions
+## § 13.4 Functions
 
 > The primary purpose of a function is to return a value that is to be used in an expression.
 
-## §13.5.1 Pass by value
+## § 13.5.1 Pass by value
 
-## §13.5.2 Pass by reference
+## § 13.5.2 Pass by reference
 
 ```SV
 function automatic int crc (ref byte packet [1000:1]);
@@ -93,7 +102,7 @@ function automatic int crc (ref byte packet [1000:1]);
 endfunction
 ```
 
-## §20.8.1 Integer math functions
+## § 20.8.1 Integer math functions
 
 > The system function `$clog2` shall return the ceiling of the log base 2 of the argument
 
@@ -101,7 +110,7 @@ endfunction
 $clog2(n)
 ```
 
-## §20.8.2 Real math functions
+## § 20.8.2 Real math functions
 
 ```SV
 $ln(x)
@@ -127,7 +136,7 @@ $acosh(x)
 $atanh(x)
 ```
 
-## §20.10 Severity system tasks
+## § 20.10 Severity system tasks
 
 ### `$fatal`
 
@@ -138,7 +147,7 @@ $fatal [ ( finish_number [, list_of_arguments ] ) ] ;
 finish_number ::= 0 | 1 | 2
 ```
 
-## §23.3.2 Module instantiation syntax
+## § 23.3.2 Module instantiation syntax
 
 > One or more module **instances** (identical copies of a module) can be specified in a single module instantiation statement.
 
@@ -159,6 +168,10 @@ ffnand
 
 ```SV
 begin: block_a
-	...
+	//
 end: block_a
+
+function [7:0] flip
+	//
+endfunction: flip
 ```
