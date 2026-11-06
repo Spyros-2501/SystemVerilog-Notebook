@@ -3,8 +3,7 @@
 ## § 5.10 Structure literals
 
 ```SV
-typedef struct {int a; shortreal b;} ab;
-ab c;
+typedef struct {int a; shortreal b;} ab; ab c;
 c = '{default:0};
 d = ab'{int:1, shortreal:1.0};
 ```
@@ -102,6 +101,12 @@ function automatic int crc (ref byte packet [1000:1]);
 endfunction
 ```
 
+## § 20.7 Array query functions
+
+> `$right` shall return the highest possible index value.
+
+> `$size` shall return the number of elements currently allocated.
+
 ## § 20.8.1 Integer math functions
 
 > The system function `$clog2` shall return the ceiling of the log base 2 of the argument
@@ -145,6 +150,26 @@ $atanh(x)
 ```SV
 $fatal [ ( finish_number [, list_of_arguments ] ) ] ;
 finish_number ::= 0 | 1 | 2
+```
+## § 21.2.1.2 Size of displayed data
+
+> If the field.. is **0**, the result is displayed in the **minimum** width..
+
+```SV
+module printval;
+	logic [11:0] r1;
+	initial begin
+		r1 = 10;
+		$display( "Printing with maximum size - :%d: :%h:", r1,r1 );
+		$display( "Printing with minimum size - :%0d: :%0h:", r1,r1 );
+	end
+endmodule
+```
+This example will print:
+
+```
+Printing with maximum size - :	10: :00a:
+Printing with minimum size - :10: :a:
 ```
 
 ## § 23.3.2 Module instantiation syntax
