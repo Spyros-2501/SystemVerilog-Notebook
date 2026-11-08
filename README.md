@@ -42,6 +42,13 @@ int Array[0:7][0:31];	// array declaration using ranges
 int Array  [8]  [32];	// array declaration using sizes
 ```
 
+## § 7.12.2 Array ordering methods
+
+```SV
+int q[$] = { 4, 5, 3, 1 };
+q.sort;					// q becomes { 1, 3, 4, 5 }
+```
+
 ## § 9.4.2.1 Event OR operator
 
 > Comma-separated sensitivity lists shall be synonymous to `or`-separated sensitivity lists.
@@ -172,6 +179,30 @@ Printing with maximum size - :	10: :00a:
 Printing with minimum size - :10: :a:
 ```
 
+## § 21.2.1.6 Assignment pattern format
+
+> The `%p` format specifier may be used to print aggregate expressions such as unpacked structures, arrays, and unions.
+
+```SV
+module top;
+	typedef enum {ON, OFF} switch_e;
+	typedef struct {switch_e sw; string s;} pair_t;
+	pair_t va[int] = '{10:'{OFF, "switch10"}, 20:'{ON, "switch20"}};
+
+	initial begin
+		// ...
+		$display("va[int] = %0p;",va);
+		// ...
+	end
+endmodule : top
+```
+
+This example may print:
+
+```
+va[int] = '{10:'{OFF, "switch10"}, 20:'{ON, "switch20"}} ; 
+```
+
 ## § 23.3.2 Module instantiation syntax
 
 > One or more module **instances** (identical copies of a module) can be specified in a single module instantiation statement.
@@ -182,6 +213,10 @@ ffnand
 	ff2 (.q(),     .qbar(out2), .clear(in2), .preset(in1), .q()); 
 	ff3 (.q(out3), .qbar(),     .clear(in1), .preset(in2));
 ```
+
+## § 23.7 Member selects and hierarchical names
+
+## § 23.8 Upwards name referencing
 
 ----------------------------------------------------------------------
 
